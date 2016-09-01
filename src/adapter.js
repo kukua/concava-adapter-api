@@ -67,8 +67,10 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 				return cb('Metadata error: No metadata available for device ' + id)
 			}
 
+			var row = rows[0]
+
 			// Create attributes
-			var attributes = rows[0].template.attributes.map((row) => {
+			var attributes = row.template.attributes.map((row) => {
 				var attr = new SensorAttribute(row.name)
 				var { converters, calibrators, validators } = row
 
@@ -87,13 +89,13 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 
 			// Create info object
 			var info = {}
-			var labels = rows[0].labels
+			var labels = row.labels
 
 			labels && labels.forEach((label) => {
 				info[label.key] = label.value
 			})
 
-			info._id = id
+			info._id = row.id
 
 			// Cache result
 			cache[id] = { info, attributes, timestamp: Date.now() }
