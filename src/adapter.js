@@ -89,7 +89,7 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 			var info = {}
 			var labels = rows[0].labels
 
-			labels && labels.each((label) => {
+			labels && labels.forEach((label) => {
 				info[label.key] = label.value
 			})
 
