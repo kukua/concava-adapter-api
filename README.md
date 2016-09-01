@@ -25,9 +25,9 @@ var config = {
 
 module.exports = {
 	debug: true,
-	// [optional] Authentication is done in every adapter,
-	// so the auth adapter only provides req.user.
 	auth: {
+		enabled: true, // Required for parsing the auth header
+		fetchUser: false, // Fetch user entity
 		method: adapter.auth,
 		config: config,
 	},
@@ -41,6 +41,9 @@ module.exports = {
 	},
 }
 ```
+
+**Note:** Besides the device labels, the metadata adapter adds an `_id` to `data.getInfo()`.
+This ConCaVa API device ID is required by the storage adapter.
 
 ## License
 

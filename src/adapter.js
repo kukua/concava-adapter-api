@@ -2,6 +2,8 @@ import fetch from 'node-fetch'
 
 // Authorization adapter
 export var auth = (req, options, data, cb) => {
+	if ( ! options.fetchUser) return cb()
+
 	if (options.byToken === false) {
 		return cb('Auth adapter only supports token authentication.')
 	}
