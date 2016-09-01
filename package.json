@@ -1,6 +1,6 @@
 {
   "name": "concava-adapter-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ConCaVa adapter for authorization, metadata and storage through the ConCaVa API.",
   "main": "lib/adapter.js",
   "scripts": {
