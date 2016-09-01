@@ -5,7 +5,7 @@ export var auth = (req, options, data, cb) => {
 	if ( ! options.fetchUser) return cb()
 
 	if (options.byToken === false) {
-		return cb('Auth adapter only supports token authentication.')
+		return cb('Auth error: Only token authentication is supported.')
 	}
 
 	fetch(options.config.host + '/users', {
@@ -15,18 +15,18 @@ export var auth = (req, options, data, cb) => {
 		},
 		timeout: options.timeout,
 	})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Auth error: ' + err.message))
 		.then((res) => {
 			if (res.status >= 200 && res.status < 300) return res.json()
 
-			res.json().then((data) => cb(data.message))
+			res.json().then((data) => cb('Auth error: ' + data.message))
 		})
 		.then((rows) => {
-			if ( ! rows || ! rows[0]) return cb('No user for token.')
+			if ( ! rows || ! rows[0]) return cb('Auth error: No user for token.')
 
 			cb(null, rows[0])
 		})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Auth error: ' + err.message))
 }
 
 // Metadata adapter
@@ -56,15 +56,15 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 		},
 		timeout: options.timeout,
 	})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Metadata error: ' + err.message))
 		.then((res) => {
 			if (res.status >= 200 && res.status < 300) return res.json()
 
-			res.json().then((data) => cb(data.message))
+			res.json().then((data) => cb('Metadata error: ' + data.message))
 		})
 		.then((rows) => {
 			if ( ! rows[0] || ! rows[0].template || ! rows[0].template.attributes) {
-				return cb('No metadata available for device ' + id)
+				return cb('Metadata error: No metadata available for device ' + id)
 			}
 
 			// Create attributes
@@ -102,7 +102,7 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 			data.setAttributes(attributes)
 			cb()
 		})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Metadata error: ' + err.message))
 }
 
 
@@ -119,11 +119,11 @@ export var storage = (req, options, data, cb) => {
 		body: JSON.stringify(data.getData()),
 		timeout: options.timeout,
 	})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Storage error: ' + err.message))
 		.then((res) => {
 			if (res.status >= 200 && res.status < 300) return cb()
 
-			res.json().then((data) => cb(data.message))
+			res.json().then((data) => cb('Storage error: ' + data.message))
 		})
-		.catch((err) => cb(err.message))
+		.catch((err) => cb('Storage error: ' + err.message))
 }
