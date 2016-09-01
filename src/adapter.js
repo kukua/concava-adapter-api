@@ -99,6 +99,7 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 			cache[id] = { info, attributes, timestamp: Date.now() }
 
 			// Done
+			data.setInfo(info)
 			data.setAttributes(attributes)
 			cb()
 		})
