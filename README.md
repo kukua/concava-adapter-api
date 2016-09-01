@@ -27,13 +27,14 @@ module.exports = {
 	debug: true,
 	auth: {
 		enabled: true, // Required for parsing the auth header
-		fetchUser: false, // Fetch user entity
 		method: adapter.auth,
 		config: config,
+		fetchUser: false, // Fetch user entity
 	},
 	metadata: {
 		method: adapter.metadata,
 		config: config,
+		cacheExpireTime: 15 * 60 * 1000, // ms
 	},
 	storage: {
 		method: adapter.storage,

@@ -8,7 +8,7 @@ export var auth = (req, options, data, cb) => {
 		return cb('Auth adapter only supports token authentication.')
 	}
 
-	fetch(options.host + '/users', {
+	fetch(options.config.host + '/users', {
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': 'Token ' + req.auth.token,
@@ -49,7 +49,7 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 		'template.attributes.validators,' +
 		'labels'
 
-	fetch(options.host + '/devices?filter=udid:' + id + '&include=' + include, {
+	fetch(options.config.host + '/devices?filter=udid:' + id + '&include=' + include, {
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': 'Token ' + req.auth.token,
@@ -110,7 +110,7 @@ export var metadata = (req, options, data, { SensorAttribute }, cb) => {
 export var storage = (req, options, data, cb) => {
 	var id = data.getInfo()._id
 
-	fetch(options.host + '/devices/' + id + '/measurements', {
+	fetch(options.config.host + '/devices/' + id + '/measurements', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
